@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestAPIG_lambda(t *testing.T) {
+func TestAPIG_httpAPILambdaProxyBasic(t *testing.T) {
 	t.Parallel()
 
 	apigName := fmt.Sprintf("apig-%s", random.UniqueId())
-	exampleDir := "../examples/lambda/"
+	exampleDir := "../examples/http_api_lambda_proxy_basic/"
 
 	terraformOptions := SetupExample(t, apigName, exampleDir)
 	t.Logf("Terraform module inputs: %+v", *terraformOptions)
