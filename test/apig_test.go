@@ -47,6 +47,19 @@ func TestAPIG_httpAPILambdaProxyCustomDomain(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	TerraformApplyAndValidateOutputs(t, terraformOptions)
+
+	aws_apigatewayv2_domain_name_output := terraform.OutputListOfObjects(t, terraformOptions, "aws_apigatewayv2_domain_name")
+	expectedDomainName := strings.ToLower(fmt.Sprintf("%s.%s.foo.bar.com", apigName, apigName))
+	require.Len(t, aws_apigatewayv2_domain_name_output, 1)
+	require.Regexp(t, regexp.MustCompile("arn:aws:apigateway:us-east-1::/domainnames/*"), aws_apigatewayv2_domain_name_output[0]["arn"])
+	require.Equal(t, expectedDomainName, aws_apigatewayv2_domain_name_output[0]["domain_name"])
+	require.Equal(t, expectedDomainName, aws_apigatewayv2_domain_name_output[0]["id"])
+
+	aws_route53_record_output := terraform.OutputListOfObjects(t, terraformOptions, "aws_route53_record")
+	require.Len(t, aws_route53_record_output, 1)
+	require.Equal(t, "A", aws_route53_record_output[0]["type"])
+	require.Equal(t, expectedDomainName, aws_route53_record_output[0]["fqdn"])
+
 }
 
 func SetupExample(t *testing.T, apigName string, exampleDir string) *terraform.Options {
