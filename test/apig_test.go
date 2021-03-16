@@ -23,6 +23,19 @@ func TestAPIG_httpAPILambdaProxyBasic(t *testing.T) {
 	TerraformApplyAndValidateOutputs(t, terraformOptions)
 }
 
+func TestAPIG_httpAPILambdaProxyCORS(t *testing.T) {
+	t.Parallel()
+
+	apigName := fmt.Sprintf("apig-%s", random.UniqueId())
+	exampleDir := "../examples/http_api_lambda_proxy_cors/"
+
+	terraformOptions := SetupExample(t, apigName, exampleDir)
+	t.Logf("Terraform module inputs: %+v", *terraformOptions)
+	defer terraform.Destroy(t, terraformOptions)
+
+	TerraformApplyAndValidateOutputs(t, terraformOptions)
+}
+
 func SetupExample(t *testing.T, apigName string, exampleDir string) *terraform.Options {
 	terraformOptions := &terraform.Options{
 		TerraformDir: exampleDir,

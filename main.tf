@@ -1,8 +1,8 @@
 /**
-* # Terraform AWS module for [AWS API gateway V2](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html) with OpenAPI spec
+* # Terraform AWS module for [AWS API gateway V2](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html) with OpenAPI spec
 *
 * ## Introduction
-* This is a minimal Terraform module which accepts a AWS + OpenAPI spec and deploys an [AWS API Gateway V2](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+* This is a minimal Terraform module which accepts a AWS + OpenAPI spec and deploys an [AWS API Gateway V2](https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api.html)
 *
 * ## Usage
 * Check [examples](./examples) on how to use this module
