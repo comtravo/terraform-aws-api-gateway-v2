@@ -3,6 +3,7 @@ package test
 import (
 	"fmt"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/random"
@@ -36,6 +37,18 @@ func TestAPIG_httpAPILambdaProxyCORS(t *testing.T) {
 	TerraformApplyAndValidateOutputs(t, terraformOptions)
 }
 
+func TestAPIG_httpAPILambdaProxyCustomDomain(t *testing.T) {
+
+	apigName := fmt.Sprintf("apig-%s", random.UniqueId())
+	exampleDir := "../examples/http_api_lambda_proxy_custom_domain/"
+
+	terraformOptions := SetupExample(t, apigName, exampleDir)
+	t.Logf("Terraform module inputs: %+v", *terraformOptions)
+	defer terraform.Destroy(t, terraformOptions)
+
+	TerraformApplyAndValidateOutputs(t, terraformOptions)
+}
+
 func SetupExample(t *testing.T, apigName string, exampleDir string) *terraform.Options {
 	terraformOptions := &terraform.Options{
 		TerraformDir: exampleDir,
@@ -43,7 +56,7 @@ func SetupExample(t *testing.T, apigName string, exampleDir string) *terraform.O
 			"AWS_REGION": "us-east-1",
 		},
 		Vars: map[string]interface{}{
-			"name": apigName,
+			"name": strings.ToLower(apigName),
 		},
 	}
 	return terraformOptions
